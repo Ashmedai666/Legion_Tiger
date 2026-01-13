@@ -64,10 +64,22 @@ const RevealOnScroll: React.FC<RevealOnScrollProps> = ({ children, className = "
 // Hero Component
 const Hero = () => {
   const scrollY = useScrollPosition();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const scrollToStory = () => {
     document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Parallax offsets for different layers to create depth
+  const titleOffset = scrollY * 0.4;
+  const subtitleOffset = scrollY * 0.3;
+  const descOffset = scrollY * 0.2;
+  const btnOffset = scrollY * 0.1;
+  const bgOffset = scrollY * 0.5;
 
   return (
     <div className="relative h-screen flex items-center justify-center overflow-hidden bg-stalker-900">
@@ -75,7 +87,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div 
           className="absolute inset-0 w-full h-[120%] -top-[10%]"
-          style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+          style={{ transform: `translateY(${bgOffset}px)` }}
         >
           <img 
             src="https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=2070&auto=format&fit=crop" 
@@ -87,54 +99,85 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Hero Content with Parallax Fade */}
-      <div 
-        className="relative z-10 max-w-7xl mx-auto px-4 w-full mt-10 sm:mt-0 flex flex-col justify-center h-full"
-        style={{ 
-          transform: `translateY(${scrollY * 0.2}px)`, 
-          opacity: Math.max(0, 1 - scrollY / 700) 
-        }}
-      >
-        <div className="max-w-4xl animate-in slide-in-from-bottom-10 duration-1000 fade-in fill-mode-forwards">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="h-[2px] w-12 bg-stalker-accent"></div>
-            <span className="text-stalker-accent font-mono text-sm tracking-[0.3em] uppercase">Коллекция 2024</span>
+      {/* Hero Content with Staggered Parallax Layers */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 w-full mt-10 sm:mt-0 flex flex-col justify-center h-full">
+        <div className="max-w-4xl perspective-1000">
+          
+          {/* Subtitle Layer */}
+          <div 
+            className={`transition-all duration-1000 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ 
+              transform: mounted ? `translateY(${subtitleOffset}px)` : 'translateY(2rem)',
+              opacity: Math.max(0, 1 - scrollY / 500)
+            }}
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-[2px] w-12 bg-stalker-accent shadow-[0_0_10px_rgba(217,119,6,0.5)]"></div>
+              <span className="text-stalker-accent font-mono text-sm tracking-[0.3em] uppercase drop-shadow-md">Коллекция 2024</span>
+            </div>
           </div>
           
-          <h1 className="text-6xl sm:text-8xl md:text-9xl font-display font-black text-white tracking-tighter mb-8 uppercase leading-[0.9]">
-            Легион <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Тигр</span>
-          </h1>
+          {/* Main Title Layer */}
+          <div 
+             className={`transition-all duration-1000 delay-200 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+             style={{ 
+               transform: mounted ? `translateY(${titleOffset}px)` : 'translateY(3rem)',
+               opacity: Math.max(0, 1 - scrollY / 600)
+             }}
+          >
+            <h1 className="text-6xl sm:text-8xl md:text-9xl font-display font-black text-white tracking-tighter mb-8 uppercase leading-[0.9] drop-shadow-2xl">
+              Легион <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Тигр</span>
+            </h1>
+          </div>
           
-          <p className="text-lg sm:text-2xl text-gray-300 max-w-xl mb-12 font-light leading-relaxed border-l border-white/20 pl-6">
-            Элитное тактическое снаряжение. Сочетание военной утилитарности и бескомпромиссной эстетики.
-          </p>
+          {/* Description Layer */}
+          <div 
+             className={`transition-all duration-1000 delay-300 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+             style={{ 
+               transform: mounted ? `translateY(${descOffset}px)` : 'translateY(2rem)',
+               opacity: Math.max(0, 1 - scrollY / 400)
+             }}
+          >
+            <p className="text-lg sm:text-2xl text-gray-300 max-w-xl mb-12 font-light leading-relaxed border-l border-white/20 pl-6 backdrop-blur-sm">
+              Элитное тактическое снаряжение. Сочетание военной утилитарности и бескомпромиссной эстетики.
+            </p>
+          </div>
 
-          <div className="flex flex-col sm:flex-row gap-6">
-            <button 
-              onClick={scrollToStory}
-              className="group px-8 py-4 bg-white text-black hover:bg-gray-200 font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3"
-            >
-              Узнать историю 
-              <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-            </button>
-            <Link 
-              to="/catalog" 
-              className="group px-8 py-4 border border-white/30 hover:border-white hover:bg-white/5 backdrop-blur text-white font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3"
-            >
-              В каталог
-              <MoveRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+          {/* Action Buttons Layer */}
+          <div 
+             className={`transition-all duration-1000 delay-500 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+             style={{ 
+               transform: mounted ? `translateY(${btnOffset}px)` : 'translateY(2rem)',
+               opacity: Math.max(0, 1 - scrollY / 300)
+             }}
+          >
+            <div className="flex flex-col sm:flex-row gap-6">
+              <button 
+                onClick={scrollToStory}
+                className="group px-8 py-4 bg-white text-black hover:bg-gray-200 font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+              >
+                Узнать историю 
+                <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+              </button>
+              <Link 
+                to="/catalog" 
+                className="group px-8 py-4 border border-white/30 hover:border-white hover:bg-white/5 backdrop-blur text-white font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3"
+              >
+                В каталог
+                <MoveRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
       
       {/* Scroll Indicator */}
       <div 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-pulse"
-        style={{ opacity: Math.max(0, 0.5 - scrollY / 300) }}
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-300"
+        style={{ opacity: Math.max(0, 0.5 - scrollY / 200) }}
       >
-        <span className="text-[10px] uppercase tracking-widest text-gray-400">Scroll</span>
+        <span className="text-[10px] uppercase tracking-widest text-gray-400 animate-pulse">Scroll</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-gray-400 to-transparent"></div>
       </div>
     </div>
