@@ -40,8 +40,14 @@ const useOnScreen = (options: IntersectionObserverInit) => {
   return [ref, isVisible] as const;
 };
 
+interface RevealOnScrollProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}
+
 // Component for scroll-revealed content
-const RevealOnScroll = ({ children, className = "", delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) => {
+const RevealOnScroll: React.FC<RevealOnScrollProps> = ({ children, className = "", delay = 0 }) => {
   const [ref, isVisible] = useOnScreen({ threshold: 0.1, rootMargin: "-50px" });
 
   return (
