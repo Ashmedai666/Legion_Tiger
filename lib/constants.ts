@@ -127,4 +127,4 @@ export const MOCK_PRODUCTS: Product[] = [
   }
 ];
 
-export const SITE_NAME = "ЛЕГИОН_ТИГР";
+export const SITE_NAME = "ЛЕГИОН ТИГР";
