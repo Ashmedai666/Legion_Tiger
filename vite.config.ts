@@ -15,5 +15,17 @@ export default defineConfig(({ mode }) => {
       // Polyfill process.env as an empty object to prevent "process is not defined" errors
       'process.env': {},
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor': ['react', 'react-dom', 'react-router-dom'],
+            'icons': ['lucide-react'],
+            'ai': ['@google/genai']
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000
+    }
   };
 });

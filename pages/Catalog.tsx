@@ -155,6 +155,7 @@ const ProductCard: React.FC<{ product: Product }> = ({ product }) => (
         src={product.image} 
         alt={product.name} 
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+        loading="lazy"
       />
       {product.tags.includes("New") && (
         <div className="absolute top-2 right-2 bg-stalker-accent text-white text-[10px] font-bold px-2 py-1 uppercase">

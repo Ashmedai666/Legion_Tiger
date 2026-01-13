@@ -8,6 +8,7 @@ export const CATEGORIES = [
   { id: 'protection', name: 'Защита' },
 ];
 
+// Optimized image sizes: 600x600 instead of 800x800 for thumbnails to save bandwidth
 export const MOCK_PRODUCTS: Product[] = [
   {
     id: '1',
@@ -15,7 +16,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'apparel',
     price: 18500,
     rating: 4.8,
-    image: 'https://picsum.photos/id/1011/800/800',
+    image: 'https://picsum.photos/id/1011/600/600',
     images: ['https://picsum.photos/id/1011/800/800', 'https://picsum.photos/id/1012/800/800'],
     description: 'Продвинутая защита от непогоды для операций высокой мобильности.',
     story: 'Разработанная в суровых ветрах северных архипелагов, Specter V2 определяет баланс между дышащими свойствами и непроницаемостью. Когда тишина — это выживание, ткань с 4-сторонним растяжением движется без единого звука. Это не просто куртка, это ваша вторая кожа в полевых условиях.',
@@ -35,7 +36,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'protection',
     price: 24900,
     rating: 5.0,
-    image: 'https://picsum.photos/id/100/800/800',
+    image: 'https://picsum.photos/id/100/600/600',
     images: ['https://picsum.photos/id/100/800/800', 'https://picsum.photos/id/88/800/800'],
     description: 'Минималистичная, масштабируемая платформа баллистической защиты.',
     story: 'Война изменилась. Скорость — это броня. Vanguard Gen 4 избавляется от каждого грамма лишнего веса, оставляя каркас из ламината лазерной резки, который прочнее стали по соотношению к весу. Адаптивный, модульный и бескомпромиссный.',
@@ -54,7 +55,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'footwear',
     price: 14200,
     rating: 4.6,
-    image: 'https://picsum.photos/id/103/800/800',
+    image: 'https://picsum.photos/id/103/600/600',
     images: ['https://picsum.photos/id/103/800/800', 'https://picsum.photos/id/146/800/800'],
     description: 'Внедорожное сцепление с ловкостью кроссовок.',
     story: 'Километры имеют значение. Operator 2.0 — это мост между горными ботинками и спринтерской обувью. Разработанные с учетом отзывов разведывательных подразделений, подошва Vibram® вгрызается в рыхлый грунт, а карбоновая вставка защищает стопу.',
@@ -73,7 +74,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'packs',
     price: 11500,
     rating: 4.9,
-    image: 'https://picsum.photos/id/250/800/800',
+    image: 'https://picsum.photos/id/250/600/600',
     images: ['https://picsum.photos/id/250/800/800', 'https://picsum.photos/id/257/800/800'],
     description: '3-дневный штурмовой рюкзак с расширяемым объемом.',
     story: 'Ваша линия жизни в движении. Recon 30L упорядочивает хаос в систему доступных отделений. Независимо от того, несете ли вы связь, боеприпасы или снаряжение для выживания, рама распределения нагрузки переносит вес на бедра, сохраняя плечи свежими для боя.',
@@ -92,7 +93,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'optics',
     price: 3200,
     rating: 4.7,
-    image: 'https://picsum.photos/id/400/800/800',
+    image: 'https://picsum.photos/id/400/600/600',
     images: ['https://picsum.photos/id/400/800/800'],
     description: 'Маяк идентификации "свой-чужой" для ночных операций.',
     story: 'Видим только тем, кому нужно видеть. NightOwl излучает мощный ИК-импульс, видимый в ПНВ с расстояния 5 км, но остается невидимым для невооруженного глаза. Незаменим для идентификации дружественных сил в условиях нулевой освещенности.',
@@ -111,7 +112,7 @@ export const MOCK_PRODUCTS: Product[] = [
     category: 'apparel',
     price: 9800,
     rating: 4.5,
-    image: 'https://picsum.photos/id/338/800/800',
+    image: 'https://picsum.photos/id/338/600/600',
     images: ['https://picsum.photos/id/338/800/800'],
     description: 'Прочная полевая рубашка для жаркого климата.',
     story: 'Жара — это враг. Рубашка Apex использует микроперфорированный рип-стоп для активного отвода тепла тела. Усиленные локти и структурированный воротник сохраняют профессиональный вид, обеспечивая долговечность, необходимую для войны в джунглях.',

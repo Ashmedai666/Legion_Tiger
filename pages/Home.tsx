@@ -7,10 +7,17 @@ import { MOCK_PRODUCTS } from '../lib/constants';
 const useScrollPosition = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   useEffect(() => {
+    let ticking = false;
     const updatePosition = () => {
-      setScrollPosition(window.pageYOffset);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollPosition(window.pageYOffset);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", updatePosition);
+    window.addEventListener("scroll", updatePosition, { passive: true });
     return () => window.removeEventListener("scroll", updatePosition);
   }, []);
   return scrollPosition;
@@ -25,6 +32,8 @@ const useOnScreen = (options: IntersectionObserverInit) => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setIsVisible(true);
+        // Once visible, disconnect to save resources
+        if (ref.current) observer.unobserve(ref.current);
       }
     }, options);
 
@@ -48,7 +57,7 @@ interface RevealOnScrollProps {
 
 // Component for scroll-revealed content
 const RevealOnScroll: React.FC<RevealOnScrollProps> = ({ children, className = "", delay = 0 }) => {
-  const [ref, isVisible] = useOnScreen({ threshold: 0.1, rootMargin: "-50px" });
+  const [ref, isVisible] = useOnScreen({ threshold: 0.1, rootMargin: "0px" });
 
   return (
     <div
@@ -89,10 +98,13 @@ const Hero = () => {
           className="absolute inset-0 w-full h-[120%] -top-[10%]"
           style={{ transform: `translateY(${bgOffset}px)` }}
         >
+          {/* Optimized Image: Reduced width from 2070 to 1280, reduced quality */}
           <img 
-            src="https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=2070&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=75&w=1280&auto=format&fit=crop" 
             alt="Tactical Background" 
             className="w-full h-full object-cover opacity-60"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-stalker-900 via-stalker-900/40 to-black/60"></div>
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay"></div>
@@ -202,6 +214,7 @@ const StorySection = () => {
                     src={product.image} 
                     alt="Specter V2 Detail" 
                     className="w-full h-full object-cover opacity-90 transition-transform duration-[2s] group-hover:scale-105"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stalker-900 via-transparent to-transparent opacity-80"></div>
                   
@@ -280,7 +293,8 @@ const CategoriesSection = () => (
         <CategoryCard 
            title="Одежда" 
            subtitle="Адаптивные слои"
-           image="https://images.unsplash.com/photo-1542359649-31e03cd4d909?q=80&w=1974&auto=format&fit=crop" 
+           // Optimized image resolution
+           image="https://images.unsplash.com/photo-1542359649-31e03cd4d909?q=70&w=600&auto=format&fit=crop" 
            link="/catalog/apparel" 
            colSpan="col-span-1"
            delay={0}
@@ -288,7 +302,7 @@ const CategoriesSection = () => (
         <CategoryCard 
            title="Защита" 
            subtitle="Баллистика"
-           image="https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=80&w=2070&auto=format&fit=crop" 
+           image="https://images.unsplash.com/photo-1595590424283-b8f17842773f?q=70&w=600&auto=format&fit=crop" 
            link="/catalog/protection" 
            colSpan="col-span-1"
            delay={200}
@@ -296,7 +310,7 @@ const CategoriesSection = () => (
         <CategoryCard 
            title="Рюкзаки" 
            subtitle="Мобильность"
-           image="https://images.unsplash.com/photo-1533575928287-253f9543df53?q=80&w=2070&auto=format&fit=crop" 
+           image="https://images.unsplash.com/photo-1533575928287-253f9543df53?q=70&w=600&auto=format&fit=crop" 
            link="/catalog/packs" 
            colSpan="col-span-1"
            delay={400}
@@ -313,7 +327,8 @@ const CategoryCard = ({ title, subtitle, image, link, colSpan, delay }: { title:
         <img 
           src={image} 
           alt={title} 
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-80" 
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-80"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stalker-900 via-transparent to-transparent opacity-90"></div>
         <div className="absolute bottom-0 left-0 p-8 w-full">
@@ -397,6 +412,7 @@ const NewArrivals = () => (
                   src={product.image} 
                   alt={product.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                  loading="lazy"
                 />
                 <div className="absolute top-4 left-4 bg-black/60 backdrop-blur px-3 py-1 text-[10px] font-bold text-white uppercase tracking-wider">
                   {product.category}

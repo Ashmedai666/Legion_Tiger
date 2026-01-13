@@ -1,11 +1,20 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect, Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
-import Catalog from './pages/Catalog';
-import ProductDetail from './pages/ProductDetail';
-import Checkout from './pages/Checkout';
 import { CartItem, Product } from './types';
+
+// Lazy load pages to reduce initial bundle size
+const Home = lazy(() => import('./pages/Home'));
+const Catalog = lazy(() => import('./pages/Catalog'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-stalker-900">
+    <div className="w-12 h-12 border-4 border-stalker-accent border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 // Cart Context
 interface CartContextType {
@@ -62,15 +71,17 @@ const App: React.FC = () => {
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cartTotal, isCartOpen, setIsCartOpen }}>
       <HashRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="catalog" element={<Catalog />} />
-            <Route path="catalog/:category" element={<Catalog />} />
-            <Route path="product/:id" element={<ProductDetail />} />
-            <Route path="checkout" element={<Checkout />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="catalog" element={<Catalog />} />
+              <Route path="catalog/:category" element={<Catalog />} />
+              <Route path="product/:id" element={<ProductDetail />} />
+              <Route path="checkout" element={<Checkout />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </HashRouter>
     </CartContext.Provider>
   );
