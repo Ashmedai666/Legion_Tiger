@@ -5,62 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ЛЕГИОН ТИГР | Тактическое Превосходство</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔫</text></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Manrope', 'sans-serif'],
-              mono: ['JetBrains Mono', 'monospace'],
-            },
-            colors: {
-              stalker: {
-                900: '#0a0a0a',
-                800: '#121212',
-                700: '#1c1c1c',
-                accent: '#d97706', // Amber-600
-                accentHover: '#b45309',
-              }
-            },
-            backgroundImage: {
-              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      /* Custom Scrollbar for Webkit */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0a0a0a; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #333; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #d97706; 
-      }
-      .glass {
-        background: rgba(18, 18, 18, 0.7);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-    </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@fontsource/inter/": "https://esm.sh/@fontsource/inter@^5.2.8/",
+    "@fontsource/manrope/": "https://esm.sh/@fontsource/manrope@^5.2.8/",
+    "@fontsource/jetbrains-mono/": "https://esm.sh/@fontsource/jetbrains-mono@^5.2.8/",
     "react/": "https://esm.sh/react@^19.2.3/",
     "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
     "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",

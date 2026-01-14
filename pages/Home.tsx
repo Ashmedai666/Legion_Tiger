@@ -139,7 +139,7 @@ const Hero = () => {
           >
             <h1 className="text-6xl sm:text-8xl md:text-9xl font-display font-black text-white tracking-tighter mb-8 uppercase leading-[0.9] drop-shadow-2xl">
               Легион <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Тигр</span>
+              <span className="text-gradient bg-gradient-to-r from-gray-200 to-gray-500">Тигр</span>
             </h1>
           </div>
           
